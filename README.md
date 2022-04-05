@@ -1,6 +1,7 @@
 # gltf viewer with pointer lock controls
 
 [video](https://www.bilibili.com/video/BV1tr4y1p7ET/)
+
 [try](https://lraty-li.github.io/GltfViewerPointerLockControls/index.html)
 
 the modified [threejs example](https://threejs.org/examples/?q=lock#misc_controls_pointerlock) to browse gltf file through gamming control
