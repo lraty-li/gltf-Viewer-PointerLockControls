@@ -21,6 +21,7 @@ let moveDown = false;
 
 
 let prevTime = performance.now();
+let baseSpeed = 10.0
 const velocity = new THREE.Vector3();
 const direction = new THREE.Vector3();
 const vertex = new THREE.Vector3();
@@ -36,7 +37,7 @@ let eventSource;
 
 
 //searching location
-function keyDownUp() {
+function SearchInput() {
     var input = searchBar.value.toUpperCase();
     var resutlLiSet = [];
     if (input.length == 0) return
@@ -61,7 +62,7 @@ searchBar.addEventListener('keydown', (e) => {
 });
 searchBar.addEventListener('input', (e) => {
     var value = e.target.value;
-    keyDownUp();
+    SearchInput();
     if (eventSource === 'list') {
         camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
     }
@@ -70,7 +71,7 @@ searchBar.addEventListener('input', (e) => {
 //file upload
 let upLoader = document.getElementById('fileUpload');
 
-function loadScene() {
+const loadScene = function () {
     const files = upLoader.files;
     if (files.length == 0) {
         alert("no file selected");
@@ -90,8 +91,7 @@ upLoader.addEventListener('change', loadScene)
 
 function init(gtlfUrl) {
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-    camera.position.y = 10;
+    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3500);
 
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0xA5C8E3);
@@ -129,9 +129,7 @@ function init(gtlfUrl) {
         //set cam to first location
         if (locationSetKeys.length >= 1) {
             var firstLoca = locationSetKeys[0]
-            console.log(firstLoca)
             firstLoca = locationSet[firstLoca]
-            console.log(firstLoca)
             camera.position.set(firstLoca.x, firstLoca.y, firstLoca.z)
         } else {
             camera.position.set(center.x, center.y, center.z);
@@ -246,9 +244,26 @@ function init(gtlfUrl) {
         }
 
     };
+    //adjust fly speed
+    const onWheel = function (event) {
+        console.log(baseSpeed)
+        if (controls.isLocked === true) {
+
+            if (event.deltaY > 0) {
+                baseSpeed += 1
+                if (baseSpeed > 30) baseSpeed = 29
+            } else {
+                //-100<0 seepd up
+                baseSpeed -= 1
+                if (baseSpeed <= 0) baseSpeed = 1
+            }
+        }
+
+    };
 
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('keyup', onKeyUp);
+    document.addEventListener('wheel', onWheel);
 
     raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0), 0, 10);
 
@@ -292,13 +307,13 @@ function animate() {
 
         const intersections = raycaster.intersectObjects(objects, false);
 
-        const onObject = intersections.length > 0;
-
+        // const onObject = intersections.length > 0;
+        //TODO clear speed? no need to long auto fly
         const delta = (time - prevTime) / 1000;
 
-        velocity.x -= velocity.x * 10.0 * delta;
-        velocity.z -= velocity.z * 10.0 * delta;
-        velocity.y -= velocity.y * 10.0 * delta;
+        velocity.x -= velocity.x * baseSpeed * delta;
+        velocity.z -= velocity.z * baseSpeed * delta;
+        velocity.y -= velocity.y * baseSpeed * delta;
         // velocity.y -= 9.8 * 100.0 * delta; // 100.0 = mass
 
         direction.z = Number(moveForward) - Number(moveBackward);
@@ -309,12 +324,12 @@ function animate() {
         if (moveForward || moveBackward) velocity.z -= direction.z * 400.0 * delta;
         if (moveLeft || moveRight) velocity.x -= direction.x * 400.0 * delta;
         if (moveUp || moveDown) velocity.y -= direction.y * 400.0 * delta;
-        if (onObject === true) {
+        // if (onObject === true) {
 
-            velocity.y = Math.max(0, velocity.y);
-            canJump = true;
+        //     velocity.y = Math.max(0, velocity.y);
+        //     canJump = true;
 
-        }
+        // }
 
         controls.moveRight(-velocity.x * delta);
         controls.moveForward(-velocity.z * delta);
@@ -325,9 +340,6 @@ function animate() {
 
             velocity.y = 0;
             controls.getObject().position.y = 10;
-
-            canJump = true;
-
         }
 
     }
