@@ -38,7 +38,6 @@ let eventSource;
 //searching location
 function keyDownUp() {
     var input = searchBar.value.toUpperCase();
-    console.log(input)
     var resutlLiSet = [];
     if (input.length == 0) return
     var resultKeySet = [];
@@ -55,7 +54,6 @@ function keyDownUp() {
         newResult.innerText = resultKeySet[index];
         searchResults.appendChild(newResult)
     }
-    console.log(resultKeySet)
 }
 
 searchBar.addEventListener('keydown', (e) => {
@@ -78,11 +76,10 @@ function loadScene() {
         alert("no file selected");
         return
     }
-    console.log(files[0]);
     var objectURL = window.URL.createObjectURL(files[0]);
     init(objectURL)
     animate()
-    upLoader.style.display="none"
+    upLoader.style.display = "none"
 
 }
 upLoader.addEventListener('change', loadScene)
@@ -129,7 +126,16 @@ function init(gtlfUrl) {
         const size = box.getSize(new THREE.Vector3()).length();
         const center = box.getCenter(new THREE.Vector3());
 
-        camera.position.set(-870, 4023, 1285);
+        //set cam to first location
+        if (locationSetKeys.length >= 1) {
+            var firstLoca = locationSetKeys[0]
+            console.log(firstLoca)
+            firstLoca = locationSet[firstLoca]
+            console.log(firstLoca)
+            camera.position.set(firstLoca.x, firstLoca.y, firstLoca.z)
+        } else {
+            camera.position.set(center.x, center.y, center.z);
+        }
         controls.maxDistance = size * 10;
 
         camera.near = size / 100;
