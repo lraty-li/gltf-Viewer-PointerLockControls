@@ -115,6 +115,7 @@ function init(gtlfUrl) {
 
         locationSet = {}
         locationSetKeys = [];
+        console.log(gltf)
         for (let index = 0; index < gltf.scene.children.length; index++) {
             var mesh = gltf.scene.children[index];
             locationSet[mesh['name']] = mesh['position']
