@@ -121,6 +121,10 @@ select {
     left: 10%;
     transition: all ease-in-out 0.2s;
     transform: translate(-50%, -50%);
+    opacity: 0.4;
+}
+#searchBar:hover{
+    opacity: 1;
 }
 
 #fileUpload {
