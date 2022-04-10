@@ -22,7 +22,7 @@ function clickzTreeNode(e, treeId, treeNode) {
     //TODO set camera
     var value = treeNode.name;
     value=value.replace(".","");
-    if (!treeNode.isParent) {
+    if (!treeNode.isParent && locationSet[value]) {
 
         camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
     }
