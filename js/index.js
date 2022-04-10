@@ -6,6 +6,38 @@ import {
 import {
     GLTFLoader
 } from 'https://cdn.jsdelivr.net/npm/three@0.139.2/examples/jsm/loaders/GLTFLoader.js';
+
+//========== ztree ============= start
+import {
+    data
+} from "./data.js";
+
+var setting = {
+    callback: {
+        onClick: clickzTreeNode,
+    },
+};
+
+function clickzTreeNode(e, treeId, treeNode) {
+    //TODO set camera
+    var value = treeNode.name;
+    value=value.replace(".","");
+    if (!treeNode.isParent) {
+
+        camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
+    }
+}
+
+
+function initTree() {
+    $.fn.zTree.init($("#treeDemo"), setting, data);
+}
+
+$(document).ready(function () {
+    initTree();
+});
+//========== ztree ============= end
+
 let camera, scene, renderer, controls;
 
 const objects = [];
@@ -36,7 +68,7 @@ let searchResults = document.getElementById('searchResults');
 let eventSource;
 
 
-//searching location
+//searching location(left)================start
 function SearchInput() {
     var input = searchBar.value.toUpperCase();
     var resutlLiSet = [];
@@ -67,6 +99,7 @@ searchBar.addEventListener('input', (e) => {
         camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
     }
 });
+//searching location(left)================end
 
 //file upload
 let upLoader = document.getElementById('fileUpload');
@@ -247,7 +280,6 @@ function init(gtlfUrl) {
     };
     //adjust fly speed
     const onWheel = function (event) {
-        console.log(baseSpeed)
         if (controls.isLocked === true) {
 
             if (event.deltaY > 0) {

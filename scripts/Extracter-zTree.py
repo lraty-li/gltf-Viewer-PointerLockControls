@@ -33,10 +33,6 @@ def exhaustColl(colls):
         tempCurrDicColls = tempDic['children']
         indexingList = indexingList[0:-1]
 
-        # if(colls.name_full == "拳套"):
-        #     print("tempCurrDicColls", tempCurrDicColls)
-        #     os._exit()
-
         return
 
     for subCollsIndex in range(len(colls.children)):
@@ -44,9 +40,7 @@ def exhaustColl(colls):
         print('======{}======'.format(subColls.name_full))
         indexingList.append(subCollsIndex)
         tempCurrDicColls.append({'name': subColls.name_full, 'children': []})
-        # print("LINE_39:",tempCurrDicColls,subCollsIndex)
         # TODO add a last level
-        # tempLastDicColls=tempCurrDicColls
         # go down
         print("indexingList", indexingList)
         tempCurrDicColls = tempCurrDicColls[subCollsIndex]['children']
@@ -62,7 +56,6 @@ def exhaustColl(colls):
             for keyIndex in range(len(indexingList[0:-1])):
                 tempDic = tempDic['children'][keyIndex]
 
-            # print(indexingList)
             indexingList = indexingList[0:-1]
             tempCurrDicColls = tempDic['children']
 
@@ -72,4 +65,4 @@ exhaustColl(rootScene)
 # on windows
 with open('{}\\data.json'.format(os.path.dirname(bpy.data.filepath)), 'w') as fp:
     json.dump(strucDic, fp, ensure_ascii=False)
-# print(strucDic)
+# how to debug in blender script?

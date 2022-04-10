@@ -1,0 +1,46 @@
+.search_wrap {
+    top: 3vh;
+    right: 0vw;
+    transition: all ease-in-out 0.2s;
+    /* transform: translate(-100%,0); */
+}
+
+ul.ztree {
+    margin-top: 10px;
+    border: 1px solid #617775;
+    background: #f0f6e4;
+    /* width: 220px;
+    height: 360px; */
+    max-height: 95vh;
+    max-width: 25vw;
+    overflow-y: scroll;
+    overflow-x: auto;
+}
+
+.ztree li>a.highlight_alt {
+    color: #00A600;
+    font-weight: bold;
+}
+
+.ztree li>a.highlight span.node_name:before,
+.ztree li>a.highlight_hiddennodes span.node_name:before,
+.ztree li>a.hiddennodes span.node_name:before {
+    font-family: FontAwesome;
+    color: green;
+    font-size: 14px;
+    position: absolute;
+    left: 100%;
+    margin-left: 8px;
+}
+
+.ztree li>a.highlight span.node_name:before {
+    content: '\f058';
+}
+
+.ztree li>a.hiddennodes span.node_name:before {
+    content: '\f00e';
+}
+
+.ztree li>a.highlight.hiddennodes span.node_name:before {
+    content: '\f058  \f00e';
+}
