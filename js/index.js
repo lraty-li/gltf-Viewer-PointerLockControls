@@ -51,7 +51,10 @@ jsonUpLoader.addEventListener('change', loadHierarchy)
 function clickzTreeNode(e, treeId, treeNode) {
     //TODO set camera
     var value = treeNode.name;
-    value = value.replace(".", "");
+    if (value.indexOf(".") > 0)
+        value = value.replace(".", "");
+    if (value.indexOf(" ") > 0)
+        value = value.replace(" ", "_");
     if (!treeNode.isParent && locationSet[value]) {
 
         camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
