@@ -1,5 +1,16 @@
-import * as THREE from 'three';
-
+import {
+    Vector3,
+    Color,
+    PerspectiveCamera,
+    Scene,
+    DirectionalLight,
+    AmbientLight,
+    HemisphereLight,
+    Box3,
+    WebGLRenderer,
+    sRGBEncoding,
+    Raycaster
+} from 'three';
 import {
     PointerLockControls
 } from 'https://cdn.jsdelivr.net/npm/three@0.139.2/examples/jsm/controls/PointerLockControls.js';
@@ -8,10 +19,6 @@ import {
 } from 'https://cdn.jsdelivr.net/npm/three@0.139.2/examples/jsm/loaders/GLTFLoader.js';
 
 //========== ztree ============= start
-import {
-    data
-} from "./data.js";
-
 var setting = {
     callback: {
         onClick: clickzTreeNode,
@@ -25,7 +32,7 @@ const loadHierarchy = function () {
         alert("no file selected");
         return
     }
-    
+
     $.fn.zTree.destroy("treeDemo");
     var objectURL = window.URL.createObjectURL(files[0]);
     fetch(objectURL).then(response => response.json())
@@ -69,10 +76,10 @@ let moveDown = false;
 
 let prevTime = performance.now();
 let baseSpeed = 10.0
-const velocity = new THREE.Vector3();
-const direction = new THREE.Vector3();
-const vertex = new THREE.Vector3();
-const color = new THREE.Color();
+const velocity = new Vector3();
+const direction = new Vector3();
+const vertex = new Vector3();
+const color = new Color();
 
 var locationSet = {};
 var locationSetKeys = [];
@@ -139,21 +146,21 @@ upLoader.addEventListener('change', loadScene)
 
 function init(gtlfUrl) {
 
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3500);
+    camera = new PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 3500);
 
-    scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xA5C8E3);
+    scene = new Scene();
+    scene.background = new Color(0xA5C8E3);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+    const directionalLight = new DirectionalLight(0xffffff, 2);
     directionalLight.position.set(1, 1, 0.5).normalize();
     camera.add(directionalLight);
 
-    const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.3);
+    const ambientLight = new AmbientLight(0xFFFFFF, 0.3);
     camera.add(ambientLight);
 
-    // scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+    // scene.fog = new Fog( 0xffffff, 0, 750 );
 
-    const light = new THREE.HemisphereLight(0xeeeeff, 0x777788, 0.75);
+    const light = new HemisphereLight(0xeeeeff, 0x777788, 0.75);
     light.position.set(0.5, 0, 0.866);
     scene.add(light);
 
@@ -171,9 +178,9 @@ function init(gtlfUrl) {
         }
         locationSetKeys = Object.keys(locationSet);
 
-        const box = new THREE.Box3().setFromObject(gltf.scene);
-        const size = box.getSize(new THREE.Vector3()).length();
-        const center = box.getCenter(new THREE.Vector3());
+        const box = new Box3().setFromObject(gltf.scene);
+        const size = box.getSize(new Vector3()).length();
+        const center = box.getCenter(new Vector3());
 
         //set cam to first location
         if (locationSetKeys.length >= 1) {
@@ -313,18 +320,18 @@ function init(gtlfUrl) {
     document.addEventListener('keyup', onKeyUp);
     document.addEventListener('wheel', onWheel);
 
-    raycaster = new THREE.Raycaster(new THREE.Vector3(), new THREE.Vector3(0, -1, 0), 0, 10);
+    raycaster = new Raycaster(new Vector3(), new Vector3(0, -1, 0), 0, 10);
 
 
     //
 
-    renderer = new THREE.WebGLRenderer({
+    renderer = new WebGLRenderer({
         antialias: true
     });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.physicallyCorrectLights = true;
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputEncoding = sRGBEncoding;
     document.body.appendChild(renderer.domElement);
 
     //
