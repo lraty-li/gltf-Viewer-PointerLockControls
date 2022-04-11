@@ -6,6 +6,8 @@
 
 the modified [threejs example](https://threejs.org/examples/?q=lock#misc_controls_pointerlock) to browse gltf file through gamming control
 
+you can extract hierarchy(json form) of scene collection through python scripts in the "script" folder
+
 [ztree](https://github.com/zTree/zTree_v3)
 
 [PointerLockControls](https://github.com/mrdoob/three.js/blob/dev/examples/jsm/controls/PointerLockControls.js)
