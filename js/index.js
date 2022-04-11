@@ -17,25 +17,40 @@ var setting = {
         onClick: clickzTreeNode,
     },
 };
+let jsonUpLoader = document.getElementById('jsonUpload');
+
+const loadHierarchy = function () {
+    const files = jsonUpLoader.files;
+    if (files.length == 0) {
+        alert("no file selected");
+        return
+    }
+    
+    $.fn.zTree.destroy("treeDemo");
+    var objectURL = window.URL.createObjectURL(files[0]);
+    fetch(objectURL).then(response => response.json())
+        .then(json => {
+            $.fn.zTree.init($("#treeDemo"), setting, json)
+        })
+    // $.getJSON(objectURL, function (json) {
+    //     console.log(json); // this will show the info it in firebug console
+    //     var jsonObj = JSON.parse(json)
+    //     $.fn.zTree.init($("#treeDemo"), setting, jsonObj);
+    // });
+}
+jsonUpLoader.addEventListener('change', loadHierarchy)
+
 
 function clickzTreeNode(e, treeId, treeNode) {
     //TODO set camera
     var value = treeNode.name;
-    value=value.replace(".","");
+    value = value.replace(".", "");
     if (!treeNode.isParent && locationSet[value]) {
 
         camera.position.set(locationSet[value].x, locationSet[value].y, locationSet[value].z)
     }
 }
 
-
-function initTree() {
-    $.fn.zTree.init($("#treeDemo"), setting, data);
-}
-
-$(document).ready(function () {
-    initTree();
-});
 //========== ztree ============= end
 
 let camera, scene, renderer, controls;
@@ -113,7 +128,7 @@ const loadScene = function () {
     var objectURL = window.URL.createObjectURL(files[0]);
     init(objectURL)
     animate()
-    upLoader.style.display = "none"
+    document.getElementsByClassName('glbInput')[0].style.display = 'none';
 
 }
 upLoader.addEventListener('change', loadScene)

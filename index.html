@@ -28,11 +28,14 @@
 			</p>
 		</div>
 	</div>
-	<input class="floating" type="file" id="fileUpload" accept=".glb">
+	<button class="floating glbInput" onclick="document.getElementById('fileUpload').click()">模型glb文件</button>
+	<input class="hidInput"  type="file" id="fileUpload" accept=".glb">
+
 	<div class="floating search_wrap">
-		<div class="zTreeDemoBackground left">
-			<ul id="treeDemo" class="ztree"></ul>
-		</div>
+		<button onclick="document.getElementById('jsonUpload').click()">json文件</button>
+		<input class="hidInput" type="file" id="jsonUpload" accept=".json">
+		<ul id="treeDemo" class="ztree"></ul>
+
 	</div>
 	<input class="floating" type="text" id="searchBar" placeholder="搜索..." list="searchResults">
 	<datalist id="searchResults">
