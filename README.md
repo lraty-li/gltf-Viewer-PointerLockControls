@@ -8,6 +8,14 @@ the modified [threejs example](https://threejs.org/examples/?q=lock#misc_control
 
 you can extract hierarchy(json form) of scene collection through python scripts in the "script" folder
 
+## preivew
+
+![preivew](./DOC/preivew-GLTF-viewer-pointLock.png)
+
+
+
+## credit
+
 [ztree](https://github.com/zTree/zTree_v3)
 
 [PointerLockControls](https://github.com/mrdoob/three.js/blob/dev/examples/jsm/controls/PointerLockControls.js)
